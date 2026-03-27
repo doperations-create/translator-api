@@ -3,6 +3,11 @@ from deep_translator import GoogleTranslator
 
 app = Flask(__name__)
 
+# ✅ ADD THIS
+@app.route('/')
+def home():
+    return "Translator API is running 🚀"
+
 @app.route('/translate', methods=['POST'])
 def translate_text():
     data = request.get_json()
