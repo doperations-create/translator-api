@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Translator</title>
+</head>
+<body>
+
+<h2>Type and Translate</h2>
+
+<input type="text" id="inputText" placeholder="Type here...">
+<br><br>
+
+<select id="lang">
+    <option value="hi">Hindi</option>
+    <option value="kn">Kannada</option>
+    <option value="ta">Tamil</option>
+    <option value="en">English</option>
+</select>
+
+<h3>Output:</h3>
+<p id="output"></p>
+
+<script>
+let timer;
+
+document.getElementById("inputText").addEventListener("input", function() {
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+        translateText();
+    }, 400); // delay (like Google Translate)
+});
+
+function translateText() {
+    let text = document.getElementById("inputText").value.trim();
+    let lang = document.getElementById("lang").value;
+
+    // ❌ if empty → stop
+    if (text === "") {
+        document.getElementById("output").innerText = "";
+        return;
+    }
+
+    fetch(`https://translator-api-g86c.onrender.com/translate?text=${text}&target=${lang}`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("output").innerText = data.translated_text;
+    })
+    .catch(() => {
+        document.getElementById("output").innerText = "Error...";
+    });
+}
+</script>
+
+</body>
+</html>
